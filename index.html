@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SweetGift Pro - Chọn Quà Theo Vibe, Quiz 30s, eGift &amp; Hộp Quà Bí Mật</title>
+    <meta name="description" content="Trợ lý gợi ý quà tặng chuẩn gu theo vibe, ngân sách dưới 500k, quà cho người hướng nội, quà kỷ niệm, link mua đúng tầm giá, eGift và hộp quà bí mật.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Nunito', 'sans-serif'],
+                        display: ['Quicksand', 'sans-serif'],
+                    },
+                    colors: {
+                        kawaii: {
+                            cream: '#FFF9FB',
+                            pink: '#FF7EB3',
+                            pinkSoft: '#FFE4F0',
+                            pinkDark: '#F04E93',
+                            purple: '#A78BFA',
+                            purpleSoft: '#EFE9FE',
+                            purpleDark: '#7C3AED',
+                            butter: '#FDE68A',
+                            mint: '#A7F3D0',
+                            text: '#4B3244',
+                            subtext: '#826479'
+                        }
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-12px) rotate(6deg)' },
+                        },
+                        floatSlow: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-9px) rotate(-5deg)' },
+                        },
+                        popIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.9) translateY(12px)' },
+                            '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
+                        },
+                        wiggleBox: {
+                            '0%, 100%': { transform: 'rotate(0deg) scale(1)' },
+                            '20%': { transform: 'rotate(-7deg) scale(1.04)' },
+                            '40%': { transform: 'rotate(7deg) scale(1.06)' },
+                            '60%': { transform: 'rotate(-5deg) scale(1.04)' },
+                            '80%': { transform: 'rotate(4deg) scale(1.02)' }
+                        },
+                        glowPulse: {
+                            '0%, 100%': { opacity: '0.45', transform: 'scale(0.95)' },
+                            '50%': { opacity: '0.95', transform: 'scale(1.12)' }
+                        }
+                    },
+                    animation: {
+                        'float': 'float 5.5s ease-in-out infinite',
+                        'float-slow': 'floatSlow 8.2s ease-in-out 1.2s infinite',
+                        'pop-in': 'popIn 0.36s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+                        'wiggle-box': 'wiggleBox 0.55s ease-in-out',
+                        'glow-pulse': 'glowPulse 2.4s ease-in-out infinite'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FFF9FB;
+            background-image:
+                radial-gradient(rgba(255, 126, 179, 0.16) 1.5px, transparent 1.5px),
+                radial-gradient(rgba(167, 139, 250, 0.14) 1.5px, #FFF9FB 1.5px);
+            background-size: 36px 36px;
+            background-position: 0 0, 18px 18px;
+            color: #4B3244;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .kawaii-card {
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 2.5px solid #FFFFFF;
+            box-shadow: 0 12px 28px -6px rgba(255, 126, 179, 0.18), 0 4px 12px -2px rgba(167, 139, 250, 0.12), inset 0 -3px 6px rgba(255, 228, 240, 0.65);
+        }
+        .kawaii-btn {
+            transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+            user-select: none;
+        }
+        .kawaii-btn:hover { transform: translateY(-2px); }
+        .kawaii-btn:active { transform: scale(0.95); }
+        .chip-btn {
+            background: #FFFFFF;
+            border: 2px solid #FFE4F0;
+            color: #4B3244;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+            user-select: none;
+            box-shadow: 0 3px 8px rgba(255, 126, 179, 0.08);
+        }
+        .chip-btn:hover { transform: translateY(-2px); border-color: #FF7EB3; }
+        .chip-btn.active-pink {
+            background: linear-gradient(135deg, #FF7EB3 0%, #FF9EC7 100%);
+            color: #FFFFFF;
+            border-color: #FFFFFF;
+            box-shadow: 0 6px 16px rgba(255, 126, 179, 0.36);
+        }
+        .gift-card { transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .gift-card:hover { transform: translateY(-5px) rotate(0.35deg); box-shadow: 0 20px 36px -8px rgba(255, 126, 179, 0.26); }
+
+        /* Hộp quà 3D SVG tự nhiên & mượt mà */
+        .mystery-stage {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+        }
+        .mystery-stage:hover .gift-box-svg {
+            transform: translateY(-4px) scale(1.03);
+        }
+        .gift-box-svg {
+            width: 200px;
+            height: 200px;
+            overflow: visible;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .gift-lid-group {
+            transform-box: fill-box;
+            transform-origin: 18% 85%;
+            transition: transform 0.72s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .mystery-stage.is-opened .gift-lid-group {
+            transform: translate(-18px, -48px) rotate(-32deg);
+        }
+        .gift-inner-glow {
+            opacity: 0;
+            transform: scale(0.6);
+            transform-origin: center;
+            transition: all 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.12s;
+        }
+        .mystery-stage.is-opened .gift-inner-glow {
+            opacity: 1;
+            transform: scale(1.08);
+        }
+        .gift-pop-item {
+            opacity: 0;
+            transform: translateY(24px) scale(0.4);
+            transform-box: fill-box;
+            transform-origin: center;
+            transition: all 0.68s cubic-bezier(0.34, 1.56, 0.64, 1) 0.16s;
+        }
+        .mystery-stage.is-opened .gift-pop-item {
+            opacity: 1;
+            transform: translateY(-34px) scale(1);
+        }
+        .gift-sparkle {
+            opacity: 0;
+            transform: scale(0);
+            transform-box: fill-box;
+            transform-origin: center;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.24s;
+        }
+        .mystery-stage.is-opened .gift-sparkle {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #FFF9FB; }
+        ::-webkit-scrollbar-thumb { background: #FFB3D1; border-radius: 999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #FF7EB3; }
+    </style>
+</head>
+<body class="antialiased selection:bg-pink-200 selection:text-pink-900">
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Sticker nền Kawaii -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+        <div class="absolute top-24 left-[4%] text-3xl opacity-55 animate-float">🌸</div>
+        <div class="absolute top-40 right-[6%] text-2xl opacity-55 animate-float-slow">✨</div>
+        <div class="absolute bottom-28 left-[7%] text-4xl opacity-45 animate-float-slow">🧸</div>
+        <div class="absolute top-[55%] right-[4%] text-3xl opacity-50 animate-float">🍓</div>
+        <div class="absolute bottom-14 right-[14%] text-2xl opacity-45 animate-float-slow">💖</div>
+    </div>
+
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 pointer-events-none max-w-sm"></div>
+
+    <!-- MODAL CHI TIẾT QUÀ + UPSELL/DOWNSELL + AFFILIATE + ĐÁNH GIÁ -->
+    <div id="gift-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
+        <div class="kawaii-card rounded-3xl max-w-xl w-full p-6 space-y-4 animate-pop-in relative max-h-[92vh] overflow-y-auto">
+            <button type="button" id="btn-close-modal" aria-label="Đóng" class="kawaii-btn absolute top-4 right-4 w-9 h-9 rounded-full bg-pink-100 text-[#F04E93] font-extrabold flex items-center justify-center">✕</button>
+
+            <div class="flex items-start gap-4 pr-8">
+                <div id="modal-icon" class="w-16 h-16 rounded-2xl bg-pink-50 flex items-center justify-center text-4xl shadow-inner shrink-0">🎁</div>
+                <div>
+                    <div class="flex flex-wrap gap-1.5 mb-1.5">
+                        <span id="modal-vibe" class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[11px] font-extrabold"></span>
+                        <span id="modal-recipient" class="px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-700 text-[11px] font-bold"></span>
+                        <span id="modal-occasion" class="px-2.5 py-0.5 rounded-full bg-pink-100 text-[#F04E93] text-[11px] font-bold"></span>
+                    </div>
+                    <h3 id="modal-title" class="font-display font-bold text-xl text-kawaii-text"></h3>
+                    <p id="modal-approval" class="text-xs font-extrabold text-emerald-700 mt-1"></p>
+                </div>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-pink-50/75 border border-pink-100 space-y-1">
+                <span class="text-xs font-extrabold text-[#F04E93] block">🎯 Vì sao hợp &amp; góc nhìn thật:</span>
+                <p id="modal-reason" class="text-xs sm:text-sm text-kawaii-text leading-relaxed"></p>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-purple-50/80 border border-purple-100 space-y-1">
+                <span class="text-xs font-extrabold text-purple-700 block">📏 Lưu ý size &amp; cách trao quà tinh tế:</span>
+                <p id="modal-tip" class="text-xs text-kawaii-text leading-relaxed"></p>
+            </div>
+
+            <div class="p-3 rounded-2xl bg-amber-50/75 border border-amber-100 space-y-1">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-extrabold text-amber-800">💌 Lời chúc gợi ý:</span>
+                    <button type="button" id="btn-copy-modal-note" class="kawaii-btn text-[11px] font-bold text-amber-900 bg-white px-2.5 py-1 rounded-lg border border-amber-200">Copy lời chúc</button>
+                </div>
+                <p id="modal-note" class="text-xs italic text-kawaii-subtext"></p>
+            </div>
+
+            <!-- Mua đúng phân khúc giá + eGift nhanh -->
+            <div class="space-y-1.5">
+                <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-bold text-kawaii-subtext">🛒 Mua đúng phân khúc giá:</span>
+                    <span id="modal-price-range-tag" class="text-[11px] font-extrabold text-[#F04E93] bg-pink-50 px-2 py-0.5 rounded-full border border-pink-100"></span>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <a id="modal-shopee-link" target="_blank" rel="noopener noreferrer" class="kawaii-btn flex-1 text-center px-3.5 py-2.5 rounded-2xl bg-[#EE4D2D] text-white text-xs font-extrabold shadow-sm">🧡 Shopee Đúng Giá</a>
+                    <a id="modal-lazada-link" target="_blank" rel="noopener noreferrer" class="kawaii-btn flex-1 text-center px-3.5 py-2.5 rounded-2xl bg-[#0F146D] text-white text-xs font-extrabold shadow-sm">💙 Lazada Lọc Giá</a>
+                    <a id="modal-tiktok-link" target="_blank" rel="noopener noreferrer" class="kawaii-btn flex-1 text-center px-3.5 py-2.5 rounded-2xl bg-[#1F1622] text-white text-xs font-extrabold shadow-sm">🎵 TikTok Shop</a>
+                    <button type="button" id="btn-modal-egift" class="kawaii-btn px-3.5 py-2.5 rounded-2xl bg-purple-100 hover:bg-purple-200 text-purple-800 text-xs font-extrabold">🎟️ Tặng eGift</button>
+                </div>
+            </div>
+
+            <!-- Gợi ý thay thế Upsell / Downsell -->
+            <div class="pt-2 border-t border-pink-100 space-y-2">
+                <span class="text-xs font-extrabold text-kawaii-text block">🔄 Hết hàng hoặc muốn đổi ngân sách? Chọn nhanh:</span>
+                <div id="modal-alternatives" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+            </div>
+
+            <!-- Đánh giá sau khi tặng -->
+            <div class="p-3 rounded-2xl bg-emerald-50/75 border border-emerald-100 flex flex-wrap items-center justify-between gap-2">
+                <span class="text-xs font-extrabold text-emerald-900">📊 Món này có được đón nhận không?</span>
+                <div class="flex gap-1.5">
+                    <button type="button" data-vote="love" class="vote-btn kawaii-btn px-2.5 py-1 rounded-xl bg-white border border-emerald-200 text-xs font-bold hover:bg-emerald-100">😍 Rất thích</button>
+                    <button type="button" data-vote="ok" class="vote-btn kawaii-btn px-2.5 py-1 rounded-xl bg-white border border-emerald-200 text-xs font-bold hover:bg-emerald-100">👍 Ổn áp</button>
+                    <button type="button" data-vote="meh" class="vote-btn kawaii-btn px-2.5 py-1 rounded-xl bg-white border border-emerald-200 text-xs font-bold hover:bg-rose-100">😅 Chưa hợp</button>
+                </div>
+            </div>
+
+            <div class="pt-2 flex items-center justify-between border-t border-pink-100">
+                <div>
+                    <span class="text-[11px] text-kawaii-subtext block">Giá tham khảo</span>
+                    <span id="modal-price" class="font-display font-bold text-xl text-[#F04E93]"></span>
+                </div>
+                <button type="button" id="btn-modal-wishlist" class="kawaii-btn px-5 py-2.5 rounded-2xl bg-gradient-to-r from-[#FF7EB3] to-[#F04E93] text-white text-xs font-extrabold shadow-md">💝 Lưu vào Wishlist</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-40 px-3 sm:px-5 pt-3 pb-2">
+        <div class="max-w-7xl mx-auto kawaii-card rounded-3xl px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3">
+            <button type="button" data-nav="explore" class="nav-btn kawaii-btn flex items-center gap-3 text-left group">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#FF7EB3] to-[#A78BFA] flex items-center justify-center text-2xl text-white shadow-md shadow-pink-200 group-hover:rotate-6 transition-transform">🐰</div>
+                <div>
+                    <span class="font-display font-bold text-xl sm:text-2xl bg-gradient-to-r from-[#F04E93] via-[#FF7EB3] to-[#7C3AED] bg-clip-text text-transparent block leading-none">SweetGift Pro</span>
+                    <span class="text-[11px] text-kawaii-subtext font-bold mt-1 hidden sm:block">Vibe &amp; Hoàn cảnh • Quiz 30s • eGift • Hộp Quà Bí Mật ✨</span>
+                </div>
+            </button>
+
+            <nav class="flex items-center gap-1.5 overflow-x-auto max-w-full py-1">
+                <button type="button" data-nav="explore" class="nav-btn kawaii-btn px-3.5 py-2 rounded-2xl text-xs font-bold bg-[#FF7EB3] text-white whitespace-nowrap">✨ Khám Phá</button>
+                <button type="button" data-nav="quiz" class="nav-btn kawaii-btn px-3.5 py-2 rounded-2xl text-xs font-bold text-kawaii-text hover:bg-pink-50 whitespace-nowrap">🎯 Quiz &amp; Thiệp</button>
+                <button type="button" data-nav="wishlist" class="nav-btn kawaii-btn px-3.5 py-2 rounded-2xl text-xs font-bold text-kawaii-text hover:bg-pink-50 whitespace-nowrap flex items-center gap-1">
+                    <span>💝 Wishlist &amp; Dịp</span>
+                    <span id="wishlist-badge" class="px-1.5 py-0.5 text-[11px] rounded-full bg-pink-100 text-pink-700 font-extrabold">0</span>
+                </button>
+                <button type="button" data-nav="mystery" class="nav-btn kawaii-btn px-3.5 py-2 rounded-2xl text-xs font-bold text-kawaii-text hover:bg-purple-50 whitespace-nowrap">🎁 Hộp Quà Bí Mật</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="relative z-10 max-w-7xl mx-auto px-3 sm:px-5 py-4 pb-24 space-y-6">
+        <!-- Hero Banner -->
+        <section class="kawaii-card rounded-[2rem] p-6 sm:p-8 relative overflow-hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <div class="lg:col-span-8 space-y-3">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFE4F0] text-[#F04E93] text-xs font-extrabold border border-pink-200">
+                        <span>🍓</span>
+                        <span>Tặng quà đúng gu • Lọc theo Vibe &amp; Ngân sách • Mở Hộp Quà lấy hên</span>
+                    </div>
+                    <h1 id="hero-heading" class="font-display font-bold text-2xl sm:text-4xl text-kawaii-text leading-tight">
+                        Chọn món quà <span class="text-[#F04E93]">đáng yêu</span>, chạm tới <span class="text-[#7C3AED]">trái tim</span> người thương ✨
+                    </h1>
+                    <p id="hero-subheading" class="text-kawaii-subtext text-sm sm:text-base max-w-2xl leading-relaxed">
+                        Khám phá gợi ý quà tặng theo vibe &amp; hoàn cảnh, làm Quiz 4 câu trong 30 giây, gửi eGift/thiệp cá nhân hóa hoặc mở Hộp Quà Bí Mật bắn confetti!
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-2.5">
+                        <button type="button" data-nav="explore" class="nav-btn kawaii-btn px-5 py-3 rounded-2xl bg-gradient-to-r from-[#FF7EB3] to-[#FF9EC7] text-white font-bold text-xs sm:text-sm shadow-lg shadow-pink-200">🛍️ Khám Phá Quà Ngay</button>
+                        <button type="button" data-nav="quiz" class="nav-btn kawaii-btn px-5 py-3 rounded-2xl bg-[#FDE68A]/90 hover:bg-[#FDE68A] text-amber-950 font-bold text-xs sm:text-sm border-2 border-white shadow-sm">🎯 Quiz 30s &amp; Tạo Thiệp</button>
+                        <button type="button" data-nav="mystery" class="nav-btn kawaii-btn px-5 py-3 rounded-2xl bg-gradient-to-r from-[#A78BFA] to-[#8B5CF6] text-white font-bold text-xs sm:text-sm shadow-lg shadow-purple-200">🎁 Mở Hộp Quà Bí Mật</button>
+                    </div>
+                </div>
+                <div class="lg:col-span-4 flex justify-center">
+                    <div class="w-48 h-40 sm:w-56 sm:h-44 flex items-center justify-center animate-float">
+                        <span class="text-8xl">🐰🎁</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Thanh bộ sưu tập chuyên biệt -->
+        <section class="kawaii-card rounded-2xl p-3 flex flex-wrap items-center gap-2">
+            <span class="text-xs font-extrabold text-[#F04E93] px-2">🔥 Bộ sưu tập nhanh:</span>
+            <button type="button" data-seo="all" class="seo-pill chip-btn active-pink px-3 py-1 rounded-xl text-xs font-bold">Tất cả gợi ý</button>
+            <button type="button" data-seo="under500k" class="seo-pill chip-btn px-3 py-1 rounded-xl text-xs font-bold">💸 Quà dưới 500k</button>
+            <button type="button" data-seo="introvert" class="seo-pill chip-btn px-3 py-1 rounded-xl text-xs font-bold">🎧 Quà cho người hướng nội</button>
+            <button type="button" data-seo="anniversary" class="seo-pill chip-btn px-3 py-1 rounded-xl text-xs font-bold">💍 Quà kỷ niệm ngày cưới / yêu</button>
+            <button type="button" data-seo="lastminute" class="seo-pill chip-btn px-3 py-1 rounded-xl text-xs font-bold">🚑 Quà cứu nguy phút chót &amp; eGift</button>
+        </section>
+
+        <!-- TAB 1: KHÁM PHÁ QUÀ THEO VIBE & HOÀN CẢNH -->
+        <section id="tab-explore" class="tab-panel space-y-5">
+            <div class="kawaii-card rounded-3xl p-5 sm:p-6 space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-pink-100 pb-3">
+                    <div>
+                        <h2 class="font-display font-bold text-lg sm:text-xl text-kawaii-text">Bộ Lọc Tìm Quà Chuẩn Vibe &amp; Ngân Sách</h2>
+                        <p class="text-xs text-kawaii-subtext">Lọc nhanh theo vibe, đối tượng, dịp tặng hoặc mức giá để tìm món hợp nhất.</p>
+                    </div>
+                    <button type="button" id="btn-reset-filters" class="kawaii-btn px-3.5 py-2 rounded-2xl bg-pink-100 text-[#F04E93] text-xs font-extrabold">🔄 Đặt lại bộ lọc</button>
+                </div>
+
+                <div class="space-y-2">
+                    <span class="text-xs font-extrabold text-kawaii-text block">Chọn "Vibe" &amp; Hoàn cảnh:</span>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button type="button" data-vibe="all" class="vibe-btn chip-btn active-pink px-3 py-1.5 rounded-xl text-xs font-bold">🌈 Tất cả Vibe</button>
+                        <button type="button" data-vibe="Cứu nguy phút chót" class="vibe-btn chip-btn px-3 py-1.5 rounded-xl text-xs font-bold">🚑 Cứu nguy phút chót</button>
+                        <button type="button" data-vibe="Tinh tế cho người khó tính" class="vibe-btn chip-btn px-3 py-1.5 rounded-xl text-xs font-bold">🧐 Tinh tế cho người khó tính</button>
+                        <button type="button" data-vibe="Trải nghiệm & eGift" class="vibe-btn chip-btn px-3 py-1.5 rounded-xl text-xs font-bold">🎟️ Trải nghiệm / eGift</button>
+                        <button type="button" data-vibe="Ngọt ngào & Chữa lành" class="vibe-btn chip-btn px-3 py-1.5 rounded-xl text-xs font-bold">🧸 Ngọt ngào &amp; Chữa lành</button>
+                        <button type="button" data-vibe="Thiết thực & Sang trọng" class="vibe-btn chip-btn px-3 py-1.5 rounded-xl text-xs font-bold">💼 Thiết thực &amp; Sang trọng</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1">
+                    <select id="filter-recipient" class="px-3.5 py-2.5 rounded-2xl bg-white border-2 border-pink-100 text-xs font-bold text-kawaii-text focus:outline-none focus:border-[#FF7EB3]">
+                        <option value="all">👤 Đối tượng: Tất cả</option>
+                        <option value="Người yêu">💕 Người yêu / Vợ chồng</option>
+                        <option value="Sếp & Đồng nghiệp">💼 Sếp &amp; Đồng nghiệp</option>
+                        <option value="Bố mẹ & Gia đình">🏡 Bố mẹ &amp; Gia đình</option>
+                        <option value="Bạn thân">👯 Bạn thân</option>
+                    </select>
+
+                    <select id="filter-occasion" class="px-3.5 py-2.5 rounded-2xl bg-white border-2 border-pink-100 text-xs font-bold text-kawaii-text focus:outline-none focus:border-[#FF7EB3]">
+                        <option value="all">🎉 Dịp tặng: Tất cả</option>
+                        <option value="Sinh nhật">🎂 Sinh nhật</option>
+                        <option value="Kỷ niệm">💍 Kỷ niệm ngày cưới / yêu</option>
+                        <option value="Lễ Tết & Tri ân">🌸 Lễ Tết / Cảm ơn</option>
+                        <option value="Tặng bất ngờ">✨ Tặng bất ngờ</option>
+                    </select>
+
+                    <select id="filter-budget" class="px-3.5 py-2.5 rounded-2xl bg-white border-2 border-pink-100 text-xs font-bold text-kawaii-text focus:outline-none focus:border-[#FF7EB3]">
+                        <option value="all">💰 Ngân sách: Mọi mức giá</option>
+                        <option value="under300">Dưới 300.000đ</option>
+                        <option value="300to500">300.000đ – 500.000đ</option>
+                        <option value="500to1000">500.000đ – 1.000.000đ</option>
+                        <option value="over1000">Trên 1.000.000đ</option>
+                    </select>
+
+                    <input type="text" id="filter-search" placeholder="🔎 Tìm nhanh (VD: spa, nến, voucher...)" class="px-3.5 py-2.5 rounded-2xl bg-white border-2 border-pink-100 text-xs font-semibold text-kawaii-text focus:outline-none focus:border-[#FF7EB3]">
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between px-1">
+                <span id="result-count" class="text-xs font-extrabold text-kawaii-subtext"></span>
+                <span class="text-[11px] font-bold text-[#F04E93]">💡 Bấm thẻ quà để xem lý do, lưu ý size, upsell &amp; đánh giá</span>
+            </div>
+            <div id="gift-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+        </section>
+
+        <!-- TAB 2: QUIZ 4 CÂU & STUDIO THIỆP / CHECKLIST -->
+        <section id="tab-quiz" class="tab-panel hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Quiz 4 câu -->
+                <div class="lg:col-span-7 kawaii-card rounded-3xl p-6 space-y-5">
+                    <div class="space-y-1">
+                        <span class="px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-xs font-extrabold">🎯 Trắc nghiệm chọn quà nhanh</span>
+                        <h2 class="font-display font-bold text-xl text-kawaii-text">Quiz Cá Nhân Hóa 4 Bước</h2>
+                        <p class="text-xs text-kawaii-subtext">Chọn đối tượng, dịp, vibe và ngân sách để gợi ý top món phù hợp nhất.</p>
+                    </div>
+                    <div class="w-full bg-pink-100 h-2.5 rounded-full overflow-hidden">
+                        <div id="quiz-progress" class="bg-gradient-to-r from-[#FF7EB3] to-[#7C3AED] h-full transition-all duration-300" style="width: 25%"></div>
+                    </div>
+                    <div id="quiz-container" class="space-y-4"></div>
+                    <div id="quiz-result" class="hidden space-y-4 pt-3 border-t border-pink-100"></div>
+                </div>
+
+                <!-- Tạo thiệp & Checklist -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="kawaii-card rounded-3xl p-6 space-y-3.5">
+                        <h2 class="font-display font-bold text-lg text-kawaii-text">💌 Trình Tạo Thiệp Cá Nhân Hóa</h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            <input type="text" id="card-to" placeholder="Tên người nhận (VD: Lan, Sếp Hùng...)" class="px-3 py-2 rounded-xl border-2 border-pink-100 text-xs font-bold">
+                            <select id="card-tone" class="px-3 py-2 rounded-xl border-2 border-pink-100 text-xs font-bold">
+                                <option value="sweet">💕 Ngọt ngào, lãng mạn</option>
+                                <option value="polite">💼 Lịch sự, trang trọng</option>
+                                <option value="funny">😜 Hài hước, bạn thân</option>
+                                <option value="warm">🏡 Ấm áp, gia đình</option>
+                            </select>
+                        </div>
+                        <input type="text" id="card-gift-name" placeholder="Tên món quà hoặc eGift đi kèm" class="w-full px-3 py-2 rounded-xl border-2 border-pink-100 text-xs font-bold">
+                        <button type="button" id="btn-generate-card" class="kawaii-btn w-full py-2.5 rounded-2xl bg-gradient-to-r from-[#FF7EB3] to-[#F04E93] text-white text-xs font-extrabold shadow-sm">✨ Tạo Lời Chúc Ngay</button>
+
+                        <div class="p-4 rounded-2xl bg-gradient-to-br from-[#FFF0F6] via-white to-[#F3E8FF] border border-pink-200 space-y-2">
+                            <div class="flex justify-between items-center text-xs font-extrabold text-[#F04E93]">
+                                <span id="preview-header">Gửi người đặc biệt ✨</span>
+                                <span>🌸 SweetGift</span>
+                            </div>
+                            <p id="preview-body" class="text-xs italic text-kawaii-text leading-relaxed">"Chúc bạn luôn rạng rỡ và bình an. Món quà nhỏ này là chút yêu thương mình gửi tới bạn hôm nay!"</p>
+                            <div class="flex justify-end">
+                                <button type="button" id="btn-copy-card" class="kawaii-btn px-3 py-1 rounded-xl bg-white border border-pink-200 text-[11px] font-bold text-[#F04E93]">📋 Copy thiệp</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kawaii-card rounded-3xl p-6 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-display font-bold text-base text-kawaii-text">📋 Checklist Chuẩn Bị Quà</h3>
+                            <span id="checklist-progress-text" class="text-xs font-extrabold text-purple-700"></span>
+                        </div>
+                        <div id="event-checklist" class="space-y-2"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: WISHLIST, CHIA SẺ LINK & ĐẾM NGƯỢC NGÀY LỄ -->
+        <section id="tab-wishlist" class="tab-panel hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="lg:col-span-7 kawaii-card rounded-3xl p-6 space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-pink-100 pb-3">
+                    <div>
+                        <h2 class="font-display font-bold text-xl text-kawaii-text">💝 Hộp Quà Lưu Trữ (Wishlist)</h2>
+                        <p class="text-xs text-kawaii-subtext">Lưu các lựa chọn ưng ý và gửi link cho người mua chung.</p>
+                    </div>
+                    <button type="button" id="btn-share-wishlist" class="kawaii-btn px-4 py-2 rounded-2xl bg-gradient-to-r from-[#FF7EB3] to-[#7C3AED] text-white text-xs font-extrabold shadow-sm">🔗 Copy Link Chia Sẻ</button>
+                </div>
+                <div id="wishlist-items" class="space-y-3"></div>
+            </div>
+
+            <div class="lg:col-span-5 kawaii-card rounded-3xl p-6 space-y-4">
+                <h2 class="font-display font-bold text-xl text-kawaii-text">🗓️ Đếm Ngược &amp; Nhắc Ngày Đặc Biệt</h2>
+                <p class="text-xs text-kawaii-subtext">Thêm ngày lễ hoặc kỷ niệm để không bỏ lỡ thời điểm chuẩn bị quà.</p>
+                <form id="reminder-form" class="space-y-2.5">
+                    <input type="text" id="rem-title" required placeholder="Tên dịp (VD: Giáng sinh, Sinh nhật người yêu)" class="w-full px-3.5 py-2 rounded-xl border-2 border-pink-100 text-xs font-bold">
+                    <div class="flex gap-2">
+                        <input type="date" id="rem-date" required class="flex-1 px-3.5 py-2 rounded-xl border-2 border-pink-100 text-xs font-bold">
+                        <button type="submit" class="kawaii-btn px-4 py-2 rounded-xl bg-[#FF7EB3] text-white text-xs font-extrabold">+ Thêm dịp</button>
+                    </div>
+                </form>
+                <div id="reminder-list" class="space-y-2 pt-2"></div>
+            </div>
+        </section>
+
+        <!-- TAB 4: HỘP QUÀ BÍ MẬT MỞ NẮP TỰ NHIÊN + CONFETTI -->
+        <section id="tab-mystery" class="tab-panel hidden">
+            <div class="kawaii-card rounded-3xl p-6 sm:p-10 max-w-2xl mx-auto text-center space-y-5">
+                <div class="space-y-1.5">
+                    <span class="px-3.5 py-1 rounded-full bg-purple-100 text-purple-700 text-xs font-extrabold">🎁 Vòng Quay May Mắn</span>
+                    <h2 class="font-display font-bold text-2xl text-kawaii-text">Mở Hộp Quà Bí Mật Nhận Gợi Ý Ngẫu Nhiên</h2>
+                    <p class="text-xs sm:text-sm text-kawaii-subtext">Bấm vào hộp quà bên dưới để mở nắp hộp và nhận bất ngờ!</p>
+                </div>
+
+                <!-- Hộp quà SVG có nắp rời, ruy băng, ánh sáng tỏa ra và món quà bật lên -->
+                <div id="mystery-stage" class="mystery-stage" role="button" tabindex="0" aria-label="Bấm để mở hộp quà bí mật" title="Bấm để mở hộp quà">
+                    <svg class="gift-box-svg" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="boxBodyGrad" x1="45" y1="92" x2="175" y2="195" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#FF9EC7"/>
+                                <stop offset="100%" stop-color="#F04E93"/>
+                            </linearGradient>
+                            <linearGradient id="boxLidGrad" x1="35" y1="64" x2="185" y2="96" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#FFB8D6"/>
+                                <stop offset="100%" stop-color="#FF66A6"/>
+                            </linearGradient>
+                            <linearGradient id="ribbonGrad" x1="96" y1="40" x2="124" y2="195" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#FDE68A"/>
+                                <stop offset="100%" stop-color="#F59E0B"/>
+                            </linearGradient>
+                            <radialGradient id="innerGlowGrad" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#FDE68A" stop-opacity="0.95"/>
+                                <stop offset="55%" stop-color="#FF7EB3" stop-opacity="0.45"/>
+                                <stop offset="100%" stop-color="#FF7EB3" stop-opacity="0"/>
+                            </radialGradient>
+                        </defs>
+
+                        <!-- Bóng đổ dưới đáy hộp -->
+                        <ellipse cx="110" cy="198" rx="64" ry="10" fill="#4B3244" fill-opacity="0.12"/>
+
+                        <!-- Hào quang phát sáng bên trong khi mở nắp -->
+                        <circle class="gift-inner-glow" cx="110" cy="92" r="68" fill="url(#innerGlowGrad)"/>
+
+                        <!-- Miệng trong của hộp quà -->
+                        <rect x="48" y="88" width="124" height="18" rx="6" fill="#9D174D"/>
+
+                        <!-- Món quà bật lên từ trong hộp -->
+                        <g class="gift-pop-item">
+                            <circle cx="110" cy="86" r="28" fill="#FFFFFF" stroke="#FFE4F0" stroke-width="3"/>
+                            <text id="mystery-box-emoji" x="110" y="96" text-anchor="middle" font-size="30">✨</text>
+                        </g>
+
+                        <!-- Ngôi sao lấp lánh bung ra -->
+                        <g class="gift-sparkle">
+                            <text x="42" y="54" font-size="18">✨</text>
+                            <text x="164" y="50" font-size="18">💖</text>
+                            <text x="172" y="96" font-size="15">⭐</text>
+                            <text x="34" y="98" font-size="15">🌸</text>
+                        </g>
+
+                        <!-- Thân hộp quà -->
+                        <rect x="46" y="92" width="128" height="102" rx="16" fill="url(#boxBodyGrad)"/>
+                        <!-- Bóng đổ viền nắp lên thân hộp -->
+                        <rect x="46" y="92" width="128" height="10" fill="#BE185D" fill-opacity="0.28"/>
+                        <!-- Dải ruy băng dọc thân hộp -->
+                        <rect x="98" y="92" width="24" height="102" fill="url(#ribbonGrad)"/>
+                        <!-- Điểm nhấn sáng mặt hộp -->
+                        <rect x="54" y="106" width="8" height="72" rx="4" fill="#FFFFFF" fill-opacity="0.25"/>
+
+                        <!-- Nhóm NẮP HỘP + NƠ RỜI (sẽ bật nghiêng mượt mà khi mở) -->
+                        <g class="gift-lid-group">
+                            <!-- Nơ cánh trái -->
+                            <path d="M110 66 C86 36, 56 46, 72 68 C82 78, 100 72, 110 66 Z" fill="#FBBF24" stroke="#F59E0B" stroke-width="2"/>
+                            <!-- Nơ cánh phải -->
+                            <path d="M110 66 C134 36, 164 46, 148 68 C138 78, 120 72, 110 66 Z" fill="#FDE68A" stroke="#F59E0B" stroke-width="2"/>
+                            <!-- Nút thắt giữa nơ -->
+                            <rect x="101" y="56" width="18" height="16" rx="6" fill="#F59E0B"/>
+                            <!-- Nắp hộp -->
+                            <rect x="38" y="66" width="144" height="28" rx="11" fill="url(#boxLidGrad)"/>
+                            <!-- Ruy băng trên nắp -->
+                            <rect x="98" y="66" width="24" height="28" fill="url(#ribbonGrad)"/>
+                            <!-- Highlight nắp -->
+                            <rect x="46" y="70" width="128" height="5" rx="2.5" fill="#FFFFFF" fill-opacity="0.35"/>
+                        </g>
+                    </svg>
+                </div>
+                <p id="mystery-hint" class="text-xs font-extrabold text-[#F04E93]">👆 Chạm vào hộp quà để mở nắp nhé!</p>
+
+                <div id="mystery-result" class="hidden p-5 rounded-3xl bg-gradient-to-br from-pink-50 via-white to-purple-50 border-2 border-pink-200 space-y-3 animate-pop-in">
+                    <span class="text-xs font-extrabold text-[#F04E93] block">🎉 Món quà bí mật dành cho bạn:</span>
+                    <div id="mystery-icon" class="text-4xl"></div>
+                    <h3 id="mystery-title" class="font-display font-bold text-lg text-kawaii-text"></h3>
+                    <p id="mystery-reason" class="text-xs text-kawaii-subtext"></p>
+                    <div class="flex flex-wrap justify-center gap-2 pt-1">
+                        <button type="button" id="btn-mystery-detail" class="kawaii-btn px-4 py-2 rounded-2xl bg-[#FF7EB3] text-white text-xs font-extrabold">Xem chi tiết &amp; Mua</button>
+                        <button type="button" id="btn-mystery-again" class="kawaii-btn px-4 py-2 rounded-2xl bg-purple-100 text-purple-800 text-xs font-extrabold">🎲 Đóng &amp; Mở hộp khác</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="relative z-10 text-center py-6 text-xs text-kawaii-subtext space-y-1">
+        <p class="font-bold">SweetGift Pro • Trợ Lý Gợi Ý Tặng Quà Ngọt Ngào &amp; Kawaii AI 🌸</p>
+        <p>Thiết kế cho trải nghiệm tặng quà tinh tế, nhanh gọn và nhiều bất ngờ ✨</p>
+    </footer>
+
+    <script>
+        const GIFTS = [
+            {
+                id: 1,
+                title: "eGift Voucher Spa & Gội Đầu Dưỡng Sinh 90 Phút",
+                icon: "🧖‍♀️",
+                price: 390000,
+                priceRange: "300to500",
+                vibe: "Trải nghiệm & eGift",
+                recipient: "Người yêu",
+                occasion: "Sinh nhật",
+                seoTags: ["under500k", "lastminute", "anniversary"],
+                reason: "Nhận mã qua điện thoại tức thì, cực hợp khi muốn tặng sự nghỉ ngơi thật sự thay vì đồ vật dễ trùng.",
+                tip: "Nên đặt khung giờ chiều cuối tuần để người nhận thư giãn thoải mái không vội công việc.",
+                note: "Gửi tặng bạn 90 phút gác lại mọi bộn bề để nạp lại năng lượng thật xinh nhé!",
+                shopeeKeyword: "voucher spa goi dau duong sinh",
+                upsellId: 12,
+                downsellId: 5,
+                votes: { love: 49, ok: 4, meh: 1 }
+            },
+            {
+                id: 2,
+                title: "Set Nến Thơm Tinh Dầu Gỗ Tuyết Tùng & Diêm Dài",
+                icon: "🕯️",
+                price: 285000,
+                priceRange: "under300",
+                vibe: "Tinh tế cho người khó tính",
+                recipient: "Sếp & Đồng nghiệp",
+                occasion: "Lễ Tết & Tri ân",
+                seoTags: ["under500k", "introvert"],
+                reason: "Hương gỗ trầm ấm dịu nhẹ, không quá ngọt gắt nên an toàn ngay cả với người có gu mùi hương khắt khe.",
+                tip: "Tránh chọn mùi quá ngọt khi tặng đồng nghiệp/sếp; ưu tiên hương gỗ, trà trắng hoặc cam bergamot.",
+                note: "Chúc anh/chị luôn có những phút giây thư thái và bình yên sau giờ làm việc.",
+                shopeeKeyword: "nen thom tinh dau go tuyet tung",
+                upsellId: 7,
+                downsellId: 9,
+                votes: { love: 63, ok: 7, meh: 2 }
+            },
+            {
+                id: 3,
+                title: "Tai Nghe Chụp Tai Chống Ồn Chủ Động (ANC) Pastel",
+                icon: "🎧",
+                price: 890000,
+                priceRange: "500to1000",
+                vibe: "Ngọt ngào & Chữa lành",
+                recipient: "Bạn thân",
+                occasion: "Sinh nhật",
+                seoTags: ["introvert"],
+                reason: "Món quà 'chân ái' cho người hướng nội thích không gian riêng để nghe nhạc, đọc sách hoặc tập trung.",
+                tip: "Chọn đệm tai da mềm nhẹ để đeo lâu không bị cấn vành tai.",
+                note: "Tặng cậu một thế giới riêng thật êm ái mỗi khi cần sạc lại pin tâm hồn!",
+                shopeeKeyword: "tai nghe chup tai chong on pastel",
+                upsellId: 11,
+                downsellId: 6,
+                votes: { love: 56, ok: 5, meh: 0 }
+            },
+            {
+                id: 4,
+                title: "Thẻ Quà Tặng Điện Tử Đa Thương Hiệu UrBox / Got It",
+                icon: "🎟️",
+                price: 500000,
+                priceRange: "300to500",
+                vibe: "Cứu nguy phút chót",
+                recipient: "Sếp & Đồng nghiệp",
+                occasion: "Tặng bất ngờ",
+                seoTags: ["under500k", "lastminute"],
+                reason: "Chốt quà trong 30 giây khi cần gấp mà vẫn tinh tế vì người nhận tự đổi được nhiều thương hiệu ăn uống, mua sắm.",
+                tip: "Điền tên người nhận rõ ràng trên thiệp eGift để tăng sự trân trọng.",
+                note: "Một món quà nhỏ thay lời cảm ơn chân thành. Chúc bạn chọn được món đồ ưng ý nhất!",
+                shopeeKeyword: "voucher qua tang dien tu",
+                upsellId: 12,
+                downsellId: 1,
+                votes: { love: 72, ok: 6, meh: 1 }
+            },
+            {
+                id: 5,
+                title: "Gấu Bông Thỏ Tai Dài Ôm Tim Kèm Túi Quà Xinh",
+                icon: "🧸",
+                price: 240000,
+                priceRange: "under300",
+                vibe: "Ngọt ngào & Chữa lành",
+                recipient: "Người yêu",
+                occasion: "Tặng bất ngờ",
+                seoTags: ["under500k", "lastminute"],
+                reason: "Đáng yêu, mềm mịn và luôn hiện diện trên giường ngủ để nhắc nhớ về người tặng mỗi ngày.",
+                tip: "Size 40–50cm là vừa tay ôm ngủ và gọn gàng khi mang theo đi chơi.",
+                note: "Những lúc bận rộn không ở cạnh, hãy để bé thỏ này ôm bạn thật chặt nhé!",
+                shopeeKeyword: "gau bong tho tai dai mem min",
+                upsellId: 1,
+                downsellId: 9,
+                votes: { love: 84, ok: 9, meh: 2 }
+            },
+            {
+                id: 6,
+                title: "Đèn Ngủ Mặt Trăng In 3D Cảm Ứng Đổi 3 Màu",
+                icon: "🌕",
+                price: 220000,
+                priceRange: "under300",
+                vibe: "Ngọt ngào & Chữa lành",
+                recipient: "Người yêu",
+                occasion: "Kỷ niệm",
+                seoTags: ["under500k", "introvert", "anniversary"],
+                reason: "Ánh sáng vàng dịu tạo cảm giác ấm áp cho góc phòng, rất hợp tặng dịp kỷ niệm hoặc người thích decor.",
+                tip: "Chọn loại pin sạc tích điện cổng Type-C để đặt linh hoạt không vướng dây điện.",
+                note: "Cảm ơn vì đã luôn mang đến ánh sáng dịu dàng cho những ngày của chúng mình.",
+                shopeeKeyword: "den ngu mat trang 3d cam ung",
+                upsellId: 3,
+                downsellId: 9,
+                votes: { love: 45, ok: 6, meh: 1 }
+            },
+            {
+                id: 7,
+                title: "Máy Khuếch Tán Tinh Dầu Phun Sương Vân Gỗ",
+                icon: "🌿",
+                price: 460000,
+                priceRange: "300to500",
+                vibe: "Thiết thực & Sang trọng",
+                recipient: "Bố mẹ & Gia đình",
+                occasion: "Lễ Tết & Tri ân",
+                seoTags: ["under500k", "introvert"],
+                reason: "Giúp cân bằng độ ẩm phòng điều hòa và thư giãn tinh thần với hương tinh dầu thiên nhiên.",
+                tip: "Tặng kèm 1 lọ tinh dầu sả chanh hoặc oải hương để người nhận dùng thử ngay.",
+                note: "Chúc gia đình mình luôn dồi dào sức khỏe, bình an và ngủ thật ngon mỗi tối.",
+                shopeeKeyword: "may khuech tan tinh dau van go",
+                upsellId: 8,
+                downsellId: 2,
+                votes: { love: 60, ok: 5, meh: 1 }
+            },
+            {
+                id: 8,
+                title: "Máy Massage Cổ Vai Gáy Hồng Ngoại Không Dây",
+                icon: "💆‍♂️",
+                price: 750000,
+                priceRange: "500to1000",
+                vibe: "Thiết thực & Sang trọng",
+                recipient: "Bố mẹ & Gia đình",
+                occasion: "Sinh nhật",
+                seoTags: ["anniversary"],
+                reason: "Thiết thực cho bố mẹ hoặc người ngồi làm việc nhiều, giúp xoa dịu vùng cổ vai gáy mỏi nhức.",
+                tip: "Ưu tiên loại đai đeo gọn nhẹ, nút bấm to rõ ràng để người lớn tuổi dễ thao tác.",
+                note: "Mong món quà nhỏ này giúp bạn giảm bớt mệt mỏi và luôn khỏe khoắn mỗi ngày!",
+                shopeeKeyword: "may massage co vai gay hong ngoai",
+                upsellId: 12,
+                downsellId: 7,
+                votes: { love: 91, ok: 4, meh: 0 }
+            },
+            {
+                id: 9,
+                title: "Bình Giữ Nhiệt Hiển Thị Nhiệt Độ Khắc Tên",
+                icon: "🥤",
+                price: 195000,
+                priceRange: "under300",
+                vibe: "Cứu nguy phút chót",
+                recipient: "Sếp & Đồng nghiệp",
+                occasion: "Lễ Tết & Tri ân",
+                seoTags: ["under500k", "lastminute"],
+                reason: "Giá mềm nhưng mang dấu ấn riêng nhờ khắc tên, dùng hàng ngày khi đi làm hoặc tập luyện.",
+                tip: "Chọn lõi inox 316 và kiểm tra kỹ chính tả tên khắc trước khi đặt.",
+                note: "Chúc bạn một ngày làm việc thật hiệu quả và nhớ uống đủ nước nhé!",
+                shopeeKeyword: "binh giu nhiet khac ten",
+                upsellId: 2,
+                downsellId: 10,
+                votes: { love: 68, ok: 8, meh: 2 }
+            },
+            {
+                id: 10,
+                title: "Sổ Tay Bìa Da Kèm Bút Ký Kim Loại",
+                icon: "📓",
+                price: 260000,
+                priceRange: "under300",
+                vibe: "Tinh tế cho người khó tính",
+                recipient: "Sếp & Đồng nghiệp",
+                occasion: "Lễ Tết & Tri ân",
+                seoTags: ["under500k", "introvert"],
+                reason: "Chỉn chu, lịch sự và dễ ứng dụng trong ghi chép họp hành hay lập kế hoạch cá nhân.",
+                tip: "Chọn tông nâu bò, đen hoặc xanh đậm tối giản để phù hợp nhiều phong cách.",
+                note: "Chúc anh/chị gặt hái thêm nhiều cột mốc rực rỡ trong công việc và cuộc sống!",
+                shopeeKeyword: "hop qua so tay bia da but ky",
+                upsellId: 2,
+                downsellId: 9,
+                votes: { love: 53, ok: 6, meh: 1 }
+            },
+            {
+                id: 11,
+                title: "Máy Ảnh Chụp Lấy Liền Fujifilm Instax Mini",
+                icon: "📸",
+                price: 1850000,
+                priceRange: "over1000",
+                vibe: "Ngọt ngào & Chữa lành",
+                recipient: "Người yêu",
+                occasion: "Kỷ niệm",
+                seoTags: ["anniversary"],
+                reason: "Lưu giữ những khoảnh khắc hẹn hò thành ảnh in cầm tay đầy cảm xúc và tính kỷ niệm cao.",
+                tip: "Nên mua kèm sẵn 1 hộp film 10 tấm để có thể bấm máy chụp ngay lúc mở quà.",
+                note: "Cùng nhau lưu giữ thật nhiều khung hình đẹp và đáng nhớ nhé!",
+                shopeeKeyword: "may anh chup lay lien instax mini",
+                upsellId: 12,
+                downsellId: 3,
+                votes: { love: 80, ok: 3, meh: 0 }
+            },
+            {
+                id: 12,
+                title: "Voucher Bữa Tối Lãng Mạn Nhà Hàng Rooftop",
+                icon: "🥂",
+                price: 1200000,
+                priceRange: "over1000",
+                vibe: "Trải nghiệm & eGift",
+                recipient: "Người yêu",
+                occasion: "Kỷ niệm",
+                seoTags: ["anniversary", "lastminute"],
+                reason: "Lý tưởng cho kỷ niệm ngày cưới hoặc ngày yêu khi muốn tạo một buổi tối đáng nhớ cùng nhau.",
+                tip: "Đặt bàn trước 2–3 ngày và dặn nhà hàng chuẩn bị thiệp hoặc lời chúc nhỏ.",
+                note: "Chúc mừng kỷ niệm của chúng ta. Cảm ơn vì đã luôn đồng hành!",
+                shopeeKeyword: "voucher an toi nha hang lang man",
+                upsellId: 11,
+                downsellId: 1,
+                votes: { love: 89, ok: 2, meh: 0 }
+            }
+        ];
+
+        const QUIZ_STEPS = [
+            {
+                key: "recipient",
+                question: "1. Bạn đang muốn tặng quà cho ai?",
+                options: [
+                    { label: "💕 Người yêu / Vợ chồng", value: "Người yêu" },
+                    { label: "💼 Sếp & Đồng nghiệp", value: "Sếp & Đồng nghiệp" },
+                    { label: "🏡 Bố mẹ & Gia đình", value: "Bố mẹ & Gia đình" },
+                    { label: "👯 Bạn thân", value: "Bạn thân" }
+                ]
+            },
+            {
+                key: "occasion",
+                question: "2. Dịp tặng quà lần này là gì?",
+                options: [
+                    { label: "🎂 Sinh nhật", value: "Sinh nhật" },
+                    { label: "💍 Kỷ niệm ngày cưới / yêu", value: "Kỷ niệm" },
+                    { label: "🌸 Lễ Tết / Cảm ơn", value: "Lễ Tết & Tri ân" },
+                    { label: "✨ Tặng bất ngờ", value: "Tặng bất ngờ" }
+                ]
+            },
+            {
+                key: "vibe",
+                question: "3. Bạn muốn món quà mang vibe nào?",
+                options: [
+                    { label: "🚑 Cứu nguy phút chót", value: "Cứu nguy phút chót" },
+                    { label: "🧐 Tinh tế cho người khó tính", value: "Tinh tế cho người khó tính" },
+                    { label: "🎟️ Trải nghiệm / eGift", value: "Trải nghiệm & eGift" },
+                    { label: "🧸 Ngọt ngào & Chữa lành", value: "Ngọt ngào & Chữa lành" },
+                    { label: "💼 Thiết thực & Sang trọng", value: "Thiết thực & Sang trọng" }
+                ]
+            },
+            {
+                key: "budget",
+                question: "4. Ngân sách dự kiến của bạn?",
+                options: [
+                    { label: "💸 Dưới 300.000đ", value: "under300" },
+                    { label: "💵 300.000đ – 500.000đ", value: "300to500" },
+                    { label: "💳 500.000đ – 1.000.000đ", value: "500to1000" },
+                    { label: "💎 Trên 1.000.000đ", value: "over1000" }
+                ]
+            }
+        ];
+
+        const CHECKLIST_DEFAULT = [
+            { id: "c1", text: "Chốt ngân sách trần và hạn nhận quà", done: true },
+            { id: "c2", text: "Kiểm tra dị ứng mùi hương / sở thích kiêng kỵ", done: false },
+            { id: "c3", text: "Chuẩn bị thiệp chúc kèm tên người nhận", done: false },
+            { id: "c4", text: "Gỡ tem giá / hóa đơn trước khi tặng", done: false },
+            { id: "c5", text: "Chuẩn bị sẵn eGift dự phòng nếu cần gấp", done: false }
+        ];
+
+        const SEO_META = {
+            all: {
+                h1: 'Chọn món quà <span class="text-[#F04E93]">đáng yêu</span>, chạm tới <span class="text-[#7C3AED]">trái tim</span> người thương ✨',
+                sub: "Khám phá gợi ý quà tặng theo vibe & hoàn cảnh, làm Quiz 4 câu trong 30 giây, gửi eGift/thiệp cá nhân hóa hoặc mở Hộp Quà Bí Mật bắn confetti!"
+            },
+            under500k: {
+                h1: 'Quà tặng <span class="text-[#F04E93]">dưới 500K</span> tinh tế & đáng tiền nhất 💸',
+                sub: "Tuyển chọn những món quà dưới 500.000đ được đánh giá cao cho sinh nhật, đồng nghiệp và người thương."
+            },
+            introvert: {
+                h1: 'Quà cho người <span class="text-[#7C3AED]">hướng nội</span>: êm ái & riêng tư 🎧',
+                sub: "Những lựa chọn tôn trọng không gian cá nhân, giúp thư giãn tại nhà mà không gây áp lực."
+            },
+            anniversary: {
+                h1: 'Quà <span class="text-[#F04E93]">kỷ niệm ngày cưới</span> & dấu mốc yêu thương 💍',
+                sub: "Từ trải nghiệm bữa tối lãng mạn đến kỷ vật lưu giữ những khoảnh khắc đáng nhớ."
+            },
+            lastminute: {
+                h1: 'Quà <span class="text-[#F04E93]">cứu nguy phút chót</span> & eGift nhận ngay 🚑',
+                sub: "Sát giờ tặng vẫn trọn vẹn với thẻ quà điện tử và các món dễ chốt nhanh."
+            }
+        };
+
+        const BUDGET_BOUNDS = {
+            under300: { min: 50000, max: 300000, label: "Dưới 300.000đ" },
+            "300to500": { min: 300000, max: 500000, label: "300.000đ – 500.000đ" },
+            "500to1000": { min: 500000, max: 1000000, label: "500.000đ – 1.000.000đ" },
+            over1000: { min: 1000000, max: 3000000, label: "Trên 1.000.000đ" }
+        };
+
+        const state = {
+            vibe: "all",
+            recipient: "all",
+            occasion: "all",
+            budget: "all",
+            search: "",
+            seoCollection: "all",
+            wishlist: JSON.parse(localStorage.getItem("sg_pro_wishlist") || "[]"),
+            reminders: JSON.parse(localStorage.getItem("sg_pro_reminders") || '[{"id":1,"title":"Giáng sinh ấm áp","date":"2026-12-25"},{"id":2,"title":"Tết Nguyên Đán 2027","date":"2027-02-06"}]'),
+            checklist: JSON.parse(localStorage.getItem("sg_pro_checklist") || JSON.stringify(CHECKLIST_DEFAULT)),
+            quizStep: 0,
+            quizAnswers: {},
+            activeModalGiftId: null,
+            mysteryGiftId: null,
+            isMysteryOpening: false
+        };
+
+        // Đọc danh sách quà chia sẻ qua URL (?wl=1,3,5)
+        const sharedParam = new URLSearchParams(window.location.search).get("wl");
+        if (sharedParam) {
+            const parsedIds = sharedParam.split(",").map(Number).filter(id => GIFTS.some(g => g.id === id));
+            if (parsedIds.length) {
+                state.wishlist = Array.from(new Set([...state.wishlist, ...parsedIds]));
+                localStorage.setItem("sg_pro_wishlist", JSON.stringify(state.wishlist));
+            }
+        }
+
+        const formatVND = (n) => n.toLocaleString("vi-VN") + "đ";
+
+        function showToast(msg) {
+            const box = document.getElementById("toast-container");
+            const el = document.createElement("div");
+            el.className = "kawaii-card px-4 py-2.5 rounded-2xl text-xs font-extrabold text-kawaii-text border-pink-200 shadow-lg animate-pop-in pointer-events-auto";
+            el.textContent = msg;
+            box.appendChild(el);
+            setTimeout(() => el.remove(), 2800);
+        }
+
+        // Hiệu ứng Confetti trái tim & ngôi sao trên canvas
+        function fireConfetti() {
+            const canvas = document.getElementById("confetti-canvas");
+            const ctx = canvas.getContext("2d");
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const colors = ["#FF7EB3", "#A78BFA", "#FDE68A", "#A7F3D0", "#F472B6"];
+            const particles = Array.from({ length: 75 }, () => ({
+                x: canvas.width / 2 + (Math.random() - 0.5) * 140,
+                y: canvas.height / 2 - 40,
+                vx: (Math.random() - 0.5) * 13,
+                vy: -Math.random() * 11 - 3,
+                size: Math.random() * 7 + 5,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                alpha: 1,
+                rot: Math.random() * Math.PI * 2,
+                vRot: (Math.random() - 0.5) * 0.2
+            }));
+
+            let frame = 0;
+            function draw() {
+                frame++;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.28;
+                    p.rot += p.vRot;
+                    p.alpha = Math.max(0, 1 - frame / 78);
+                    ctx.save();
+                    ctx.globalAlpha = p.alpha;
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rot);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.7);
+                    ctx.restore();
+                });
+                if (frame < 78) requestAnimationFrame(draw);
+                else ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+            draw();
+        }
+
+        // Chuẩn hóa khoảng giá đúng phân khúc trên Shopee, Lazada & TikTok Shop
+        function getExactPriceBounds(gift) {
+            const band = BUDGET_BOUNDS[gift.priceRange] || {
+                min: Math.max(50000, Math.floor(gift.price * 0.8)),
+                max: Math.ceil(gift.price * 1.2)
+            };
+            const minPrice = Math.max(band.min, Math.floor((gift.price * 0.8) / 10000) * 10000);
+            const maxPrice = Math.min(band.max, Math.ceil((gift.price * 1.2) / 10000) * 10000);
+            return {
+                min: minPrice,
+                max: Math.max(minPrice + 20000, maxPrice)
+            };
+        }
+
+        function buildAffiliateLinks(gift) {
+            const { min, max } = getExactPriceBounds(gift);
+            const q = encodeURIComponent(gift.shopeeKeyword);
+            const qWithBudget = encodeURIComponent(`${gift.shopeeKeyword} dưới ${Math.round(max / 1000)}k`);
+            return {
+                min,
+                max,
+                shopee: `https://shopee.vn/search?keyword=${q}&minPrice=${min}&maxPrice=${max}&page=0&sortBy=relevancy`,
+                lazada: `https://www.lazada.vn/catalog/?q=${q}&price=${min}-${max}`,
+                tiktok: `https://www.tiktok.com/search?q=${qWithBudget}`
+            };
+        }
+
+        function getFilteredGifts() {
+            return GIFTS.filter(g => {
+                if (state.seoCollection !== "all" && !g.seoTags.includes(state.seoCollection)) return false;
+                if (state.vibe !== "all" && g.vibe !== state.vibe) return false;
+                if (state.recipient !== "all" && g.recipient !== state.recipient) return false;
+                if (state.occasion !== "all" && g.occasion !== state.occasion) return false;
+                if (state.budget !== "all" && g.priceRange !== state.budget) return false;
+                if (state.search.trim() !== "") {
+                    const s = state.search.toLowerCase();
+                    const blob = `${g.title} ${g.reason} ${g.vibe} ${g.recipient}`.toLowerCase();
+                    if (!blob.includes(s)) return false;
+                }
+                return true;
+            });
+        }
+
+        function renderGifts() {
+            const grid = document.getElementById("gift-grid");
+            const items = getFilteredGifts();
+            document.getElementById("result-count").textContent = `Hiển thị ${items.length} gợi ý phù hợp`;
+
+            if (!items.length) {
+                grid.innerHTML = `<div class="col-span-full kawaii-card rounded-3xl p-8 text-center space-y-2.5">
+                    <div class="text-4xl">🐰💭</div>
+                    <p class="font-bold text-sm text-kawaii-text">Không có món nào khớp toàn bộ điều kiện lọc hiện tại.</p>
+                    <button type="button" onclick="resetFilters()" class="kawaii-btn px-4 py-2 rounded-xl bg-[#FF7EB3] text-white text-xs font-extrabold">Đặt lại bộ lọc</button>
+                </div>`;
+                return;
+            }
+
+            grid.innerHTML = items.map(g => {
+                const saved = state.wishlist.includes(g.id);
+                const total = g.votes.love + g.votes.ok + g.votes.meh;
+                const pct = Math.round(((g.votes.love + g.votes.ok) / total) * 100);
+                return `
+                <article class="gift-card kawaii-card rounded-3xl p-4 flex flex-col justify-between gap-3">
+                    <div class="space-y-2.5">
+                        <div class="flex items-start justify-between gap-2">
+                            <span class="px-2.5 py-1 rounded-xl bg-amber-100 text-amber-900 text-[11px] font-extrabold">${g.vibe}</span>
+                            <button type="button" onclick="toggleWishlist(${g.id})" aria-label="Lưu vào Wishlist" class="kawaii-btn w-8 h-8 rounded-full ${saved ? 'bg-[#FF7EB3] text-white' : 'bg-pink-50 text-[#F04E93]'} flex items-center justify-center text-sm">
+                                ${saved ? '💖' : '🤍'}
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-pink-50 flex items-center justify-center text-2xl shrink-0">${g.icon}</div>
+                            <div>
+                                <h3 class="font-display font-bold text-sm sm:text-base text-kawaii-text leading-snug">${g.title}</h3>
+                                <span class="text-[11px] font-bold text-purple-700">👤 ${g.recipient} • 👍 ${pct}% đón nhận</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-kawaii-subtext leading-relaxed bg-pink-50/50 p-2.5 rounded-2xl border border-pink-100/80">
+                            <strong class="text-[#F04E93]">Góc nhìn thật:</strong> ${g.reason}
+                        </p>
+                    </div>
+                    <div class="pt-2 border-t border-pink-100 flex items-center justify-between gap-2">
+                        <div>
+                            <span class="text-[10px] text-kawaii-subtext block">Tham khảo</span>
+                            <span class="font-display font-bold text-base text-[#F04E93]">${formatVND(g.price)}</span>
+                        </div>
+                        <button type="button" onclick="openGiftModal(${g.id})" class="kawaii-btn px-3.5 py-2 rounded-2xl bg-gradient-to-r from-[#FF7EB3] to-[#F04E93] text-white text-xs font-extrabold shadow-xs">Chi tiết &amp; Mua</button>
+                    </div>
+                </article>`;
+            }).join("");
+        }
+
+        function openGiftModal(id) {
+            const g = GIFTS.find(x => x.id === id);
+            if (!g) return;
+            state.activeModalGiftId = id;
+
+            const total = g.votes.love + g.votes.ok + g.votes.meh;
+            const pct = Math.round(((g.votes.love + g.votes.ok) / total) * 100);
+            const links = buildAffiliateLinks(g);
+
+            document.getElementById("modal-icon").textContent = g.icon;
+            document.getElementById("modal-vibe").textContent = g.vibe;
+            document.getElementById("modal-recipient").textContent = g.recipient;
+            document.getElementById("modal-occasion").textContent = g.occasion;
+            document.getElementById("modal-title").textContent = g.title;
+            document.getElementById("modal-approval").textContent = `👍 ${pct}% người nhận hài lòng (${total} đánh giá thực tế)`;
+            document.getElementById("modal-reason").textContent = g.reason;
+            document.getElementById("modal-tip").textContent = g.tip;
+            document.getElementById("modal-note").textContent = `"${g.note}"`;
+            document.getElementById("modal-price").textContent = formatVND(g.price);
+            document.getElementById("modal-price-range-tag").textContent = `Lọc sẵn: ${formatVND(links.min)} – ${formatVND(links.max)}`;
+            document.getElementById("modal-shopee-link").href = links.shopee;
+            document.getElementById("modal-lazada-link").href = links.lazada;
+            document.getElementById("modal-tiktok-link").href = links.tiktok;
+
+            const down = GIFTS.find(x => x.id === g.downsellId);
+            const up = GIFTS.find(x => x.id === g.upsellId);
+            document.getElementById("modal-alternatives").innerHTML = [down, up].filter(Boolean).map((alt, i) => `
+                <button type="button" onclick="openGiftModal(${alt.id})" class="kawaii-btn text-left p-2.5 rounded-2xl bg-white border border-pink-100 hover:border-[#FF7EB3] flex items-center gap-2.5">
+                    <span class="text-xl">${alt.icon}</span>
+                    <div class="min-w-0">
+                        <span class="text-[10px] font-extrabold ${i === 0 ? 'text-emerald-700' : 'text-purple-700'} block">${i === 0 ? '📉 Tiết kiệm hơn' : '📈 Nâng cấp hơn'} • ${formatVND(alt.price)}</span>
+                        <span class="text-xs font-bold text-kawaii-text truncate block">${alt.title}</span>
+                    </div>
+                </button>
+            `).join("");
+
+            const wlBtn = document.getElementById("btn-modal-wishlist");
+            const saved = state.wishlist.includes(g.id);
+            wlBtn.textContent = saved ? "💖 Đã lưu trong Wishlist" : "💝 Lưu vào Wishlist";
+            wlBtn.onclick = () => {
+                toggleWishlist(g.id);
+                openGiftModal(g.id);
+            };
+
+            document.getElementById("btn-modal-egift").onclick = () => {
+                showToast(`🎟️ Đã tạo mã eGift mẫu SG-${g.id}88 trị giá ${formatVND(g.price)} cho "${g.title}"!`);
+            };
+
+            document.getElementById("gift-modal").classList.remove("hidden");
+            document.getElementById("gift-modal").classList.add("flex");
+        }
+
+        function closeGiftModal() {
+            document.getElementById("gift-modal").classList.add("hidden");
+            document.getElementById("gift-modal").classList.remove("flex");
+        }
+
+        document.getElementById("btn-close-modal").onclick = closeGiftModal;
+        document.getElementById("gift-modal").onclick = (e) => {
+            if (e.target.id === "gift-modal") closeGiftModal();
+        };
+
+        document.getElementById("btn-copy-modal-note").onclick = () => {
+            navigator.clipboard.writeText(document.getElementById("modal-note").textContent);
+            showToast("📋 Đã sao chép lời chúc!");
+        };
+
+        document.querySelectorAll(".vote-btn").forEach(btn => {
+            btn.onclick = () => {
+                const g = GIFTS.find(x => x.id === state.activeModalGiftId);
+                if (!g) return;
+                g.votes[btn.dataset.vote]++;
+                showToast("🙏 Đã ghi nhận phản hồi sau tặng quà của bạn!");
+                openGiftModal(g.id);
+                renderGifts();
+            };
+        });
+
+        // QUIZ 4 BƯỚC
+        function renderQuiz() {
+            const box = document.getElementById("quiz-container");
+            const res = document.getElementById("quiz-result");
+            const bar = document.getElementById("quiz-progress");
+
+            if (state.quizStep >= QUIZ_STEPS.length) {
+                bar.style.width = "100%";
+                box.innerHTML = "";
+                const a = state.quizAnswers;
+                const top3 = GIFTS.map(g => {
+                    let score = 0;
+                    if (g.recipient === a.recipient) score += 4;
+                    if (g.vibe === a.vibe) score += 3;
+                    if (g.priceRange === a.budget) score += 3;
+                    if (g.occasion === a.occasion) score += 2;
+                    return { ...g, score };
+                }).sort((x, y) => y.score - x.score).slice(0, 3);
+
+                res.classList.remove("hidden");
+                res.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-display font-bold text-base text-[#F04E93]">🎉 Top 3 Gợi Ý Hợp Nhất:</h3>
+                        <button type="button" onclick="resetQuiz()" class="kawaii-btn px-3 py-1 rounded-xl bg-pink-100 text-[#F04E93] text-xs font-extrabold">🔄 Làm lại</button>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        ${top3.map(g => `
+                            <div class="p-3.5 rounded-2xl bg-pink-50/70 border border-pink-200 flex flex-col justify-between gap-2.5">
+                                <div class="space-y-1">
+                                    <div class="text-2xl">${g.icon}</div>
+                                    <h4 class="font-bold text-xs text-kawaii-text">${g.title}</h4>
+                                    <p class="text-[11px] text-kawaii-subtext">${g.reason}</p>
+                                </div>
+                                <div class="pt-2 border-t border-pink-100 flex items-center justify-between">
+                                    <span class="font-extrabold text-xs text-[#F04E93]">${formatVND(g.price)}</span>
+                                    <button type="button" onclick="openGiftModal(${g.id})" class="kawaii-btn px-2.5 py-1 rounded-xl bg-[#FF7EB3] text-white text-[11px] font-bold">Xem</button>
+                                </div>
+                            </div>
+                        `).join("")}
+                    </div>
+                `;
+                return;
+            }
+
+            res.classList.add("hidden");
+            bar.style.width = `${((state.quizStep + 1) / QUIZ_STEPS.length) * 100}%`;
+            const step = QUIZ_STEPS[state.quizStep];
+            box.innerHTML = `
+                <div class="space-y-3 animate-pop-in">
+                    <h3 class="font-display font-bold text-base text-kawaii-text">${step.question}</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        ${step.options.map(o => `
+                            <button type="button" onclick="pickQuiz('${step.key}', '${o.value}')" class="chip-btn p-3 rounded-2xl text-left text-xs font-extrabold hover:bg-pink-50">${o.label}</button>
+                        `).join("")}
+                    </div>
+                </div>
+            `;
+        }
+
+        function pickQuiz(k, v) {
+            state.quizAnswers[k] = v;
+            state.quizStep++;
+            renderQuiz();
+        }
+
+        function resetQuiz() {
+            state.quizStep = 0;
+            state.quizAnswers = {};
+            renderQuiz();
+        }
+
+        // WISHLIST & SHARE LINK
+        function toggleWishlist(id) {
+            if (state.wishlist.includes(id)) {
+                state.wishlist = state.wishlist.filter(x => x !== id);
+                showToast("🗑️ Đã xóa khỏi Wishlist");
+            } else {
+                state.wishlist.push(id);
+                showToast("💝 Đã lưu vào Wishlist!");
+            }
+            localStorage.setItem("sg_pro_wishlist", JSON.stringify(state.wishlist));
+            renderWishlist();
+            renderGifts();
+        }
+
+        function renderWishlist() {
+            document.getElementById("wishlist-badge").textContent = state.wishlist.length;
+            const box = document.getElementById("wishlist-items");
+            if (!state.wishlist.length) {
+                box.innerHTML = `<p class="text-xs text-kawaii-subtext italic py-4">Wishlist đang trống. Hãy bấm biểu tượng trái tim trên các món quà bạn thích!</p>`;
+                return;
+            }
+            box.innerHTML = state.wishlist.map(id => {
+                const g = GIFTS.find(x => x.id === id);
+                if (!g) return "";
+                return `
+                <div class="p-3 rounded-2xl bg-pink-50/60 border border-pink-100 flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span class="text-2xl">${g.icon}</span>
+                        <div class="min-w-0">
+                            <h4 class="font-bold text-xs sm:text-sm text-kawaii-text truncate">${g.title}</h4>
+                            <span class="text-[11px] font-bold text-[#F04E93]">${formatVND(g.price)} • ${g.vibe}</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-1.5 shrink-0">
+                        <button type="button" onclick="openGiftModal(${g.id})" class="kawaii-btn px-3 py-1.5 rounded-xl bg-white border border-pink-200 text-xs font-bold text-kawaii-text">Chi tiết</button>
+                        <button type="button" onclick="toggleWishlist(${g.id})" aria-label="Xóa khỏi Wishlist" class="kawaii-btn px-2.5 py-1.5 rounded-xl bg-rose-100 text-rose-700 text-xs font-bold">✕</button>
+                    </div>
+                </div>`;
+            }).join("");
+        }
+
+        document.getElementById("btn-share-wishlist").onclick = () => {
+            if (!state.wishlist.length) {
+                showToast("⚠️ Chưa có món nào trong Wishlist để chia sẻ!");
+                return;
+            }
+            const shareLink = `${window.location.origin}${window.location.pathname}?wl=${state.wishlist.join(",")}`;
+            navigator.clipboard.writeText(shareLink);
+            showToast("🔗 Đã sao chép link Wishlist chia sẻ!");
+        };
+
+        // ĐẾM NGƯỢC NGÀY LỄ
+        function renderReminders() {
+            const list = document.getElementById("reminder-list");
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            list.innerHTML = state.reminders.map(r => {
+                const target = new Date(r.date + "T00:00:00");
+                const days = Math.round((target - today) / 86400000);
+                const status = days < 0 ? "Đã qua" : days === 0 ? "Hôm nay! 🎉" : `Còn ${days} ngày`;
+                return `
+                <div class="p-3 rounded-2xl bg-purple-50/70 border border-purple-100 flex items-center justify-between gap-2">
+                    <div>
+                        <div class="font-bold text-xs text-kawaii-text">${r.title}</div>
+                        <div class="text-[11px] text-kawaii-subtext">${r.date}</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-1 rounded-full bg-white text-purple-700 text-[11px] font-extrabold border border-purple-200">${status}</span>
+                        <button type="button" onclick="removeReminder(${r.id})" aria-label="Xóa dịp nhắc" class="text-xs text-rose-500 font-bold">✕</button>
+                    </div>
+                </div>`;
+            }).join("");
+        }
+
+        document.getElementById("reminder-form").onsubmit = (e) => {
+            e.preventDefault();
+            const title = document.getElementById("rem-title").value.trim();
+            const date = document.getElementById("rem-date").value;
+            if (!title || !date) return;
+            state.reminders.push({ id: Date.now(), title, date });
+            localStorage.setItem("sg_pro_reminders", JSON.stringify(state.reminders));
+            e.target.reset();
+            renderReminders();
+            showToast("🗓️ Đã thêm ngày đặc biệt!");
+        };
+
+        function removeReminder(id) {
+            state.reminders = state.reminders.filter(r => r.id !== id);
+            localStorage.setItem("sg_pro_reminders", JSON.stringify(state.reminders));
+            renderReminders();
+        }
+
+        // THIỆP & CHECKLIST
+        document.getElementById("btn-generate-card").onclick = () => {
+            const to = document.getElementById("card-to").value.trim() || "người đặc biệt";
+            const gift = document.getElementById("card-gift-name").value.trim();
+            const tone = document.getElementById("card-tone").value;
+            const gText = gift ? `Món quà (${gift}) này` : "Món quà nhỏ này";
+
+            const msgs = {
+                sweet: `"Gửi ${to} thương mến, cảm ơn vì đã luôn hiện diện và làm ngày của mình dịu dàng hơn. ${gText} gửi tới bạn thật nhiều yêu thương nhé!"`,
+                polite: `"Kính gửi ${to}, chúc anh/chị sức khỏe dồi dào, công việc hanh thông. ${gText} thay lời cảm ơn chân thành vì sự hỗ trợ quý báu."`,
+                funny: `"Ê ${to}! Hôm nay sang xịn bất ngờ nha. ${gText} là tâm huyết của tui, nhận xong nhớ vui vẻ và bao tui ly trà sữa!"`,
+                warm: `"Gửi ${to} kính yêu, mong gia đình mình luôn khỏe mạnh, ấm áp và ngập tràn tiếng cười mỗi ngày. ${gText} gửi chút tấm lòng nhỏ."`
+            };
+            document.getElementById("preview-header").textContent = `Gửi ${to} ✨`;
+            document.getElementById("preview-body").textContent = msgs[tone];
+            showToast("💌 Đã viết lời chúc mới!");
+        };
+
+        document.getElementById("btn-copy-card").onclick = () => {
+            navigator.clipboard.writeText(`${document.getElementById("preview-header").textContent}\n${document.getElementById("preview-body").textContent}`);
+            showToast("📋 Đã sao chép nội dung thiệp!");
+        };
+
+        function renderChecklist() {
+            const box = document.getElementById("event-checklist");
+            const done = state.checklist.filter(x => x.done).length;
+            document.getElementById("checklist-progress-text").textContent = `${done}/${state.checklist.length} xong`;
+            box.innerHTML = state.checklist.map(item => `
+                <label class="flex items-center gap-2.5 p-2.5 rounded-2xl bg-pink-50/50 border border-pink-100 cursor-pointer">
+                    <input type="checkbox" ${item.done ? "checked" : ""} onchange="toggleCheck('${item.id}')" class="w-4 h-4 accent-[#FF7EB3]">
+                    <span class="text-xs font-bold ${item.done ? 'line-through text-kawaii-subtext' : 'text-kawaii-text'}">${item.text}</span>
+                </label>
+            `).join("");
+        }
+
+        function toggleCheck(id) {
+            state.checklist = state.checklist.map(x => x.id === id ? { ...x, done: !x.done } : x);
+            localStorage.setItem("sg_pro_checklist", JSON.stringify(state.checklist));
+            renderChecklist();
+        }
+
+        // HỘP QUÀ BÍ MẬT: Rung nhẹ -> Đóng nắp nếu đang mở -> Bật nắp mượt & nổi món quà
+        function openMysteryBox() {
+            if (state.isMysteryOpening) return;
+            state.isMysteryOpening = true;
+
+            const stage = document.getElementById("mystery-stage");
+            const hint = document.getElementById("mystery-hint");
+            const resultBox = document.getElementById("mystery-result");
+            const emojiEl = document.getElementById("mystery-box-emoji");
+
+            // Chọn món quà mới khác lần mở trước
+            const pool = GIFTS.filter(g => g.id !== state.mysteryGiftId);
+            const picked = pool[Math.floor(Math.random() * pool.length)];
+            state.mysteryGiftId = picked.id;
+
+            // Đóng nắp trước để tạo nhịp mở lại tự nhiên
+            stage.classList.remove("is-opened");
+            resultBox.classList.add("hidden");
+            hint.textContent = "✨ Đang lắc hộp quà lấy hên...";
+
+            // Hiệu ứng rung lắc hộp trước khi bật nắp
+            stage.classList.remove("animate-wiggle-box");
+            void stage.offsetWidth;
+            stage.classList.add("animate-wiggle-box");
+
+            setTimeout(() => {
+                emojiEl.textContent = picked.icon;
+                stage.classList.add("is-opened");
+                fireConfetti();
+                hint.textContent = "🎉 Mở nắp thành công! Bấm vào hộp để thử vận may lần nữa";
+
+                document.getElementById("mystery-icon").textContent = picked.icon;
+                document.getElementById("mystery-title").textContent = `${picked.title} (${formatVND(picked.price)})`;
+                document.getElementById("mystery-reason").textContent = picked.reason;
+                resultBox.classList.remove("hidden");
+                state.isMysteryOpening = false;
+            }, 460);
+        }
+
+        document.getElementById("mystery-stage").onclick = openMysteryBox;
+        document.getElementById("mystery-stage").onkeydown = (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                openMysteryBox();
+            }
+        };
+        document.getElementById("btn-mystery-again").onclick = openMysteryBox;
+        document.getElementById("btn-mystery-detail").onclick = () => {
+            if (state.mysteryGiftId) openGiftModal(state.mysteryGiftId);
+        };
+
+        // ĐIỀU HƯỚNG TAB & BỘ SƯU TẬP
+        function switchTab(tab) {
+            document.querySelectorAll(".tab-panel").forEach(el => el.classList.add("hidden"));
+            document.getElementById(`tab-${tab}`).classList.remove("hidden");
+            document.querySelectorAll("nav .nav-btn").forEach(btn => {
+                if (btn.dataset.nav === tab) {
+                    btn.classList.add("bg-[#FF7EB3]", "text-white");
+                    btn.classList.remove("text-kawaii-text");
+                } else {
+                    btn.classList.remove("bg-[#FF7EB3]", "text-white");
+                    btn.classList.add("text-kawaii-text");
+                }
+            });
+        }
+
+        document.querySelectorAll(".nav-btn").forEach(btn => {
+            btn.onclick = () => switchTab(btn.dataset.nav);
+        });
+
+        document.querySelectorAll(".seo-pill").forEach(pill => {
+            pill.onclick = () => {
+                document.querySelectorAll(".seo-pill").forEach(p => p.classList.remove("active-pink"));
+                pill.classList.add("active-pink");
+                const key = pill.dataset.seo;
+                state.seoCollection = key;
+                document.getElementById("hero-heading").innerHTML = SEO_META[key].h1;
+                document.getElementById("hero-subheading").textContent = SEO_META[key].sub;
+                switchTab("explore");
+                renderGifts();
+            };
+        });
+
+        document.querySelectorAll(".vibe-btn").forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll(".vibe-btn").forEach(b => b.classList.remove("active-pink"));
+                btn.classList.add("active-pink");
+                state.vibe = btn.dataset.vibe;
+                renderGifts();
+            };
+        });
+
+        document.getElementById("filter-recipient").onchange = (e) => { state.recipient = e.target.value; renderGifts(); };
+        document.getElementById("filter-occasion").onchange = (e) => { state.occasion = e.target.value; renderGifts(); };
+        document.getElementById("filter-budget").onchange = (e) => { state.budget = e.target.value; renderGifts(); };
+        document.getElementById("filter-search").oninput = (e) => { state.search = e.target.value; renderGifts(); };
+
+        function resetFilters() {
+            state.vibe = "all";
+            state.recipient = "all";
+            state.occasion = "all";
+            state.budget = "all";
+            state.search = "";
+            state.seoCollection = "all";
+            document.getElementById("filter-recipient").value = "all";
+            document.getElementById("filter-occasion").value = "all";
+            document.getElementById("filter-budget").value = "all";
+            document.getElementById("filter-search").value = "";
+            document.querySelectorAll(".vibe-btn, .seo-pill").forEach(b => b.classList.remove("active-pink"));
+            document.querySelector('.vibe-btn[data-vibe="all"]').classList.add("active-pink");
+            document.querySelector('.seo-pill[data-seo="all"]').classList.add("active-pink");
+            document.getElementById("hero-heading").innerHTML = SEO_META.all.h1;
+            document.getElementById("hero-subheading").textContent = SEO_META.all.sub;
+            renderGifts();
+        }
+
+        document.getElementById("btn-reset-filters").onclick = resetFilters;
+
+        // Khởi tạo ứng dụng
+        renderGifts();
+        renderQuiz();
+        renderWishlist();
+        renderReminders();
+        renderChecklist();
+    </script>
+</body>
+</html>
